@@ -1,6 +1,6 @@
 import pygame, os, sys, math
 from Player_stuff import Player, YourBullet
-from Enemies import Bullet_Shooter_Module, attack
+from Enemies import Bullet_Shooter_Module, Bullet_Shooter_Eye, attack
 
 
 FPS = 50
@@ -17,10 +17,14 @@ if __name__ == '__main__':
     player_group = pygame.sprite.Group()
     bullet_group = pygame.sprite.Group()
     enemy_group = pygame.sprite.Group()
+    enemy_eyes_group = pygame.sprite.Group()
     enemy_bullet_group = pygame.sprite.Group()
 
     player = Player((WIDTH//2, HEIGHT//2), (all_sprites, player_group))
-    enemy1 = Bullet_Shooter_Module((100, 100), (enemy_group, enemy_group))
+    #enemy1 = Spawn_Bullet_Shooter((100, 100), player, (enemy_group, enemy_group), (enemy_eyes_group, enemy_eyes_group))
+    enemy1 = Bullet_Shooter_Module((100, 100), player,
+                                   (enemy_eyes_group, enemy_eyes_group),
+                                   (enemy_group, enemy_group))
     
     running = True
     counter = 0
@@ -48,12 +52,13 @@ if __name__ == '__main__':
         
         screen.fill((0, 0, 0)) 
         enemy_group.draw(screen)
-        enemy_group.update(counter)
-        
+        enemy_eyes_group.draw(screen)
+        enemy_group.update(counter, player)
+            
         for enemy in enemy_group.sprites():   
             new_enemy_bullets = attack(enemy, player,
                                        (all_sprites, enemy_bullet_group),
-                                       'triple_regular', counter)
+                                       'circle_spread_grav_aff', counter)
         #print(enemy_bullet_group.sprites())
         all_sprites.draw(screen)
         all_sprites.update()
