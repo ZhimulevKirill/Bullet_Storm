@@ -245,7 +245,7 @@ class EnemyBulletCircle(pygame.sprite.Sprite):
         self.image = load_image('Circle_Bullet.png')
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = self.image.get_rect().move(*coords)
-        self.velocity, self.angle = velocity, angle
+        self.velocity, self.angle = velocity, angle   
 
     def update(self):
         self.rect.x += self.velocity * math.sin(self.angle)
@@ -256,8 +256,6 @@ class EnemyBulletCircle(pygame.sprite.Sprite):
 
 class GravityEnemyBulletCircle(EnemyBulletCircle):
     def update(self):
-        #print(self.angle)
-        #print(self.velocity * math.sin(self.angle))
         vel_x = self.velocity * math.sin(self.angle)
         vel_y = self.velocity * math.cos(self.angle)
         self.rect.x += vel_x
