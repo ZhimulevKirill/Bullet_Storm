@@ -1,6 +1,7 @@
 import pygame, os, sys, math
 from levels import dev_mode_level, start_screen, loading_screen, explo_demo, death_screen
-from levels import level_menu
+from levels import level_menu, level_1
+from levels import level_2, level_3, level_4, level_5
 
 
 FPS = 50
@@ -22,20 +23,20 @@ if __name__ == '__main__':
             elif flag == 'dev_mode_level':
                 flag = dev_mode_level(screen, WIDTH, HEIGHT)
             elif flag == 'level_1':
-                print('1')
-                flag = 'level_menu'
+                #print('1')
+                flag = level_1(screen, WIDTH, HEIGHT)
             elif flag == 'level_2':
-                print('2')
-                flag = 'level_menu'
+                #print('2')
+                flag = level_2(screen, WIDTH, HEIGHT)
             elif flag == 'level_3':
-                print('3')
-                flag = 'level_menu'
+                #print('3')
+                flag = level_3(screen, WIDTH, HEIGHT)
             elif flag == 'level_4':
-                print('4')
-                flag = 'level_menu'
+                #print('4')
+                flag = level_4(screen, WIDTH, HEIGHT)
             elif flag == 'level_5':
-                print('5')
-                flag = 'level_menu'
+                #print('5')
+                flag = level_5(screen, WIDTH, HEIGHT)
             elif flag == 'level_6':
                 print('6')
                 flag = 'level_menu'

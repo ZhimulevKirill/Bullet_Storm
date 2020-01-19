@@ -65,15 +65,29 @@ class Player(pygame.sprite.Sprite):
 
     def go_left(self):
         self.rect.x -= STEP
+        if self.rect.x <= -50:
+            self.rect.x += STEP
 
     def go_right(self):
         self.rect.x += STEP
+        if self.rect.x >= 850:
+            self.rect.x -= STEP
 
     def go_down(self):
         self.rect.y += STEP
+        if self.rect.y >= 650:
+            self.rect.y -= STEP
 
     def go_up(self):
         self.rect.y -= STEP
+        if self.rect.y <= -50:
+            self.rect.y += STEP
+
+    def attack(self, bullet_groups, counter):
+        #print(self.rect.x, self.rect.y)
+        if counter % 3 == 0:
+            new_bullet = YourBullet((self.rect.centerx, self.rect.y),
+                                    bullet_groups)
 
 
 class YourBullet(pygame.sprite.Sprite):

@@ -43,6 +43,21 @@ def triple_regular_homing(enemy, player, groups, counter):
                                                             player.rect.y + 40 - (enemy.rect.y + 15)) + math.pi / 5)
     return [new_enemy_bullet_left, new_enemy_bullet_central, new_enemy_bullet_right]
 
+def triple_regular(enemy, player, groups, counter):
+    new_enemy_bullet_left = EnemyBulletLinear((enemy.rect.x + 15, enemy.rect.y + 15),
+                                             groups,
+                                             STANDART_BULLET_VEL,
+                                              - math.pi / 5)
+    new_enemy_bullet_central = EnemyBulletLinear((enemy.rect.centerx, enemy.rect.centery),
+                                                 groups,
+                                                 STANDART_BULLET_VEL,
+                                                 0)
+    new_enemy_bullet_right = EnemyBulletLinear((enemy.rect.centerx, enemy.rect.centery),
+                                                 groups,
+                                                 STANDART_BULLET_VEL,
+                                                 math.pi / 5)
+    return [new_enemy_bullet_left, new_enemy_bullet_central, new_enemy_bullet_right]
+
 def circle_regular(enemy, player, groups, counter):
     new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
                                              groups,
@@ -110,7 +125,7 @@ def random_regular(enemy, player, groups, counter):
 
 def spread_regular(enemy, player, groups, counter):
     out_projectiles = []
-    for i in range(-10, 11):
+    for i in range(-10, 11, 4):
         new_enemy_bullet = EnemyBulletLinear((enemy.rect.x + 15, enemy.rect.y + 15),
                                              groups,
                                              STANDART_BULLET_VEL,
@@ -132,7 +147,7 @@ def spread_regular_homing(enemy, player, groups, counter):
 
 def spread_regular_grav_aff(enemy, player, groups, counter):
     out_projectiles = []
-    for i in range(-10, 11):
+    for i in range(-10, 11, 3):
         new_enemy_bullet = EnemyBulletGravity((enemy.rect.x + 15, enemy.rect.y + 15),
                                               groups,
                                               STANDART_BULLET_VEL,
@@ -156,7 +171,7 @@ def assault_regular_homing(enemy, player, groups, counter):
     out_projectiles = []
     player_angle = math.atan2(player.rect.x + 30 - (enemy.rect.x + 15),
                               player.rect.y + 40 - (enemy.rect.y + 15))
-    for i in range(0, 8):
+    for i in range(0, 5):
         new_enemy_bullet = EnemyBulletLinear((enemy.rect.x + 15 + i * ASSAULT_BULLET_OFFSET * math.sin(player_angle),
                                                enemy.rect.y + 15 + i * ASSAULT_BULLET_OFFSET * math.cos(player_angle)),
                                               groups,
@@ -165,12 +180,88 @@ def assault_regular_homing(enemy, player, groups, counter):
         out_projectiles.append(new_enemy_bullet)
     return out_projectiles
 
+def circle_spread(enemy, player, groups, counter):
+    out_projectiles = []
+    for i in range(1, 5):
+        new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
+                                                    groups,
+                                                    STANDART_BULLET_VEL,
+                                                    math.pi*(i/6))
+        out_projectiles.append(new_enemy_bullet)
+        new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
+                                                    groups,
+                                                    STANDART_BULLET_VEL,
+                                                    math.pi*(-i/6))
+        out_projectiles.append(new_enemy_bullet)
+    new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
+                                                groups,
+                                                STANDART_BULLET_VEL,
+                                                0)
+    out_projectiles.append(new_enemy_bullet)
+    return out_projectiles
+
+def circular_circle(enemy, player, groups, counter):
+    new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
+                                         groups, STANDART_BULLET_VEL,
+                                         (counter % 40) * math.pi / 20)
+    return [new_enemy_bullet]
+
+def rapid_circle_homing(enemy, player, groups, counter):
+    new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
+                                             groups,
+                                             STANDART_BULLET_VEL,
+                                             math.atan2(player.rect.x + 30 - (enemy.rect.x + 15),
+                                                        player.rect.y + 40 - (enemy.rect.y + 15)))
+    return [new_enemy_bullet]
+
+def circle_spread_fist(enemy, player, groups, counter):
+    out_projectiles = []
+    player_angle = math.atan2(player.rect.x + 30 - (enemy.rect.x + 15),
+                              player.rect.y + 40 - (enemy.rect.y + 15))
+    for i in range(1, 5):
+        new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
+                                                    groups,
+                                                    STANDART_BULLET_VEL,
+                                                    math.pi*(i/24) + player_angle)
+        out_projectiles.append(new_enemy_bullet)
+        new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
+                                                    groups,
+                                                    STANDART_BULLET_VEL,
+                                                    math.pi*(-i/24) + player_angle)
+        out_projectiles.append(new_enemy_bullet)
+    new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
+                                                groups,
+                                                STANDART_BULLET_VEL,
+                                                player_angle)
+    out_projectiles.append(new_enemy_bullet)
+    return out_projectiles
+
+def handswap_circle_left(enemy, player, groups, counter):
+    out_projectiles = []
+    angle = - math.pi / 4
+    new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
+                                            groups,
+                                            STANDART_BULLET_VEL,
+                                            angle + (counter % 56) * math.pi / 8)
+    out_projectiles.append(new_enemy_bullet)
+    return out_projectiles
+
+def handswap_circle_right(enemy, player, groups, counter):
+    out_projectiles = []
+    angle = 5 * math.pi / 4
+    new_enemy_bullet = EnemyBulletCircle((enemy.rect.x + 15, enemy.rect.y + 15),
+                                            groups,
+                                            STANDART_BULLET_VEL,
+                                            angle + (counter % 56) % 9 * math.pi / 8)
+    out_projectiles.append(new_enemy_bullet)
+    return out_projectiles
+
 def attack(enemy, player, groups, attack_type, counter):
     out_projectiles = []
-    if attack_type == 'single_regular_homing' and counter % 15 == 0:
+    if attack_type == 'single_regular_homing' and counter % 20 == 0:
         out_projectiles.extend(single_regular_homing(enemy, player, groups, counter))
 
-    elif attack_type == 'triple_regular_homing' and counter % 25 == 0:
+    elif attack_type == 'triple_regular_homing' and counter % 20 == 0:
         out_projectiles.extend(triple_regular_homing(enemy, player, groups, counter))
         
     elif attack_type == 'circle_regular' and counter % 25 == 0:    
@@ -188,7 +279,7 @@ def attack(enemy, player, groups, attack_type, counter):
     elif attack_type == 'tripleshift_regular_shifted' and counter % 30 <= 4 and counter % 30 % 2 == 0:
         out_projectiles.extend(tripleshift_regular(enemy, player, groups, counter, counter % 30 / 25))
 
-    elif attack_type == 'random_regular' and counter % 8 == 0:
+    elif attack_type == 'random_regular' and counter % 5 == 0:
         out_projectiles.extend(random_regular(enemy, player, groups, counter))
 
     elif attack_type == 'spread_regular' and counter % 20 == 0:
@@ -197,14 +288,39 @@ def attack(enemy, player, groups, attack_type, counter):
     elif attack_type == 'spread_regular_homing' and counter % 25 == 0:
         out_projectiles.extend(spread_regular_homing(enemy, player, groups, counter))
 
-    elif attack_type == 'spread_regular_grav_aff' and counter % 25 == 0:
+    elif attack_type == 'spread_regular_grav_aff' and counter % 20 == 0:
         out_projectiles.extend(spread_regular_grav_aff(enemy, player, groups, counter))
 
     elif attack_type == 'spread_regular_grav_aff_homing' and counter % 25 == 0:
         out_projectiles.extend(spread_regular_grav_aff_homing(enemy, player, groups, counter))
 
-    elif attack_type == 'assault_regular_homing' and counter % 20 == 0:
+    elif attack_type == 'assault_regular_homing' and counter % 5 == 0:
         out_projectiles.extend(assault_regular_homing(enemy, player, groups, counter))
+        
+    elif attack_type == 'circle_spread' and counter % 20 == 0:
+        out_projectiles.extend(circle_spread(enemy, player, groups, counter))
+
+    elif attack_type == 'circular_circle' and counter % 5 == 0:
+        out_projectiles.extend(circular_circle(enemy, player, groups, counter))
+
+    elif attack_type == 'circular_circle_fast' and counter % 3 == 0:
+        out_projectiles.extend(circular_circle(enemy, player, groups, counter))
+
+    elif attack_type == 'rapid_circle_homing' and counter % 8 == 0:
+        out_projectiles.extend(rapid_circle_homing(enemy, player, groups, counter))
+        #out_projectiles.extend(single_regular_homing(enemy, player, groups, counter))
+
+    elif attack_type == 'circle_spread_fist' and counter % 20 == 0:
+        out_projectiles.extend(circle_spread_fist(enemy, player, groups, counter))
+
+    elif attack_type == 'handswap_circle_left' and counter % 56 <= 8:
+        out_projectiles.extend(handswap_circle_left(enemy, player, groups, counter))
+
+    elif attack_type == 'handswap_circle_right' and 28 <=  counter % 56 <= 36:
+        out_projectiles.extend(handswap_circle_right(enemy, player, groups, counter))
+
+    elif attack_type == 'triple_regular' and counter % 5 == 0:
+        out_projectiles.extend(triple_regular(enemy, player, groups, counter))
         
     return out_projectiles
 
@@ -216,8 +332,10 @@ class Destroyer(pygame.sprite.Sprite):
         self.image = load_image(image)
         self.image = pygame.transform.scale(self.image, (300, 150))
         self.wh = [300, 150]
-        self.rect = self.image.get_rect().move(coords[0] + self.wh[0] / 2,
-                                               coords[1] + self.wh[1] / 2)
+        self.xy = coords
+        self.rect = self.image.get_rect().move(coords[0],
+                                               coords[1])
+        self.joints = joints
         self.program = program
         self.program_length = sum([command[0][1] - command[0][0] + 1 for command in self.program])
 
@@ -228,8 +346,9 @@ class Destroyer(pygame.sprite.Sprite):
             if command[0][0] <= counter % self.program_length <= command[0][1]:
                 function_x = command[1]
                 function_y = command[2]
-                self.rect.x = function_x(counter) + self.wh[0] / 2
-                self.rect.y = function_y(counter) + self.wh[1] / 2
+                self.rect.x = function_x(counter)
+                self.rect.y = function_y(counter)
+                self.xy = (self.rect.x, self.rect.y)
 
 
 class HPBar(pygame.sprite.Sprite):
@@ -244,42 +363,52 @@ class HPBar(pygame.sprite.Sprite):
         self.rect = self.image.get_rect().move(*coords)
 
     def update(self, entity):
+        if entity.hp > 0:
         #self.bar_filling = pygame.transform.scale(self.bar_filling, (int(46*(entity.hp/self.max_health)), 6))
-        self.image = self.bar.copy()
-        self.image.blit(pygame.transform.scale(self.bar_filling, (int(46*(entity.hp/self.max_health)), 6)), (2, 2))
-        #print(entity.hp)
-        self.rect.x = entity.rect.x
-        self.rect.y = entity.rect.y - 12
+            self.image = self.bar.copy()
+            self.image.blit(pygame.transform.scale(self.bar_filling, (int(46*(entity.hp/self.max_health)), 6)), (2, 2))
+            #print(entity.hp)
+            self.rect.x = entity.rect.x
+            self.rect.y = entity.rect.y + 50
 
 
 class Bullet_Shooter_Module(pygame.sprite.Sprite):
-    def __init__(self, coords, player, groups_eye, groups, hpbar_group, hp, max_hp):
+    #position on destroyer is a tuple of coords on the destroyer's surface
+    def __init__(self, coords, player, groups_eye, groups, hpbar_group,
+                 hp, max_hp, position_on_destroyer):
         super().__init__(*groups)
         self.image = load_image('Bullet_Shooter_Module.png')
         #self.image = pygame.Surface((50, 50))
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect().move(*coords)
         self.eye = Bullet_Shooter_Eye(self, player, groups_eye)
-        self.hp_bar = HPBar((self.rect.x, self.rect.y - 12),
+        self.hp_bar = HPBar((self.rect.x, self.rect.y + 50),
                             (hpbar_group, hpbar_group),
                             hp, max_hp)
         self.hp = hp
         self.hitbox = Point(coords[0] + 25, coords[1] + 25).buffer(25.0)
         self.way = []
+        self.joint_coords = position_on_destroyer
         #x = 500*sin(t) + 500
         
-    def update(self, counter, player, *bullet_group):
-        self.rect.x = 350*math.sin(counter/200) + 375
-        self.rect.y = 75*math.cos(counter/200) + 125
-        self.hitbox = Point(*self.rect.center).buffer(25.0)
-        self.eye.update(player, self)
-        self.hp_bar.update(self)
-        self.hitbox = Point(self.rect.x + 25, self.rect.y + 25).buffer(25.0)
-        if bullet_group:
-            for bullet in bullet_group[0]:
-                if bullet.hitbox.intersects(self.hitbox):
-                    self.hp -= bullet.damage
-                    bullet.kill()
+    #def update(self, counter, player, *bullet_group):
+        #self.rect.x = 350*math.sin(counter/200) + 375
+        #self.rect.y = 75*math.cos(counter/200) + 125
+    def update(self, player, coords, *bullet_group):
+        #coords - destroyer's coords
+        if self.hp > 0:
+            self.rect.x = coords[0] + self.joint_coords[0] - 25
+            self.rect.y = coords[1] + self.joint_coords[1] - 25
+            #print(self.rect.x, self.rect.y)
+            self.hitbox = Point(*self.rect.center).buffer(25.0)
+            self.eye.update(player, self)
+            self.hp_bar.update(self)
+            self.hitbox = Point(self.rect.x + 25, self.rect.y + 25).buffer(25.0)
+            if bullet_group:
+                for bullet in bullet_group[0]:
+                    if bullet.hitbox.intersects(self.hitbox):
+                        self.hp -= bullet.damage
+                        bullet.kill()
         if self.hp <= 0:
             self.eye.kill()
             self.kill()
