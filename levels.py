@@ -1,10 +1,52 @@
 import pygame, math
 from Player_stuff import Player, YourBullet, load_image
 from Enemies import Bullet_Shooter_Module, Bullet_Shooter_Eye, attack
+from Buttons import Start_Button, Loading_Sign, Title
 
 
 #demo
-#def start_screen(screen, WIDTH, HEIGHT):
+def start_screen(screen, WIDTH, HEIGHT):
+    clock = pygame.time.Clock()
+
+    all_sprites = pygame.sprite.Group()
+    title_group = pygame.sprite.Group()
+
+    start = Start_Button((255, 400), (all_sprites, all_sprites))
+    title = Title((150, 50), (title_group, title_group))
+
+    running = True
+    counter = 0
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                #pass
+                running = all_sprites.update(event)
+        screen.fill((0, 0, 0))
+        screen.blit(load_image('Fon.png'), (0, 0))
+        all_sprites.draw(screen)
+        all_sprites.update()
+        title_group.draw(screen)
+        title_group.update(counter)
+        pygame.display.flip()
+        counter += 1
+        clock.tick(50)
+
+def loading_screen(screen, WIDTH, HEIGHT):
+    clock = pygame.time.Clock()
+    all_sprites = pygame.sprite.Group()
+    for i in range(0, HEIGHT, 100):
+        loading = Loading_Sign((WIDTH - i - 100, i),
+                               (all_sprites, all_sprites))
+    counter = 0
+    while counter <= 100:
+        screen.blit(load_image('Fon.png'), (0, 0))
+        all_sprites.update(counter)
+        all_sprites.draw(screen)
+        counter += 1
+        pygame.display.flip()
+        clock.tick(50)
     
 
 def dev_mode_level(screen, WIDTH, HEIGHT):
