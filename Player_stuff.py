@@ -2,7 +2,7 @@ import pygame, os, sys
 
 
 STEP = 6
-BULLET_VELOCITY = 15
+BULLET_VELOCITY = 12
 
 
 def load_image(name):
@@ -41,3 +41,5 @@ class YourBullet(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.y -= BULLET_VELOCITY
+        if self.rect.y < -100:
+            self.kill()
