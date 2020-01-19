@@ -1,0 +1,5 @@
+Libraries Needed:
+shapely (Shapely-1.6.4.post2-cp37-cp37m-win32)
+pygame
+math
+random
